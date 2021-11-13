@@ -53,17 +53,6 @@ def euclidean_distance(loc1: Position, loc2: Position) -> float:
 
 ############################################################
 # Problem 4c
-
-def find_all_paths2(graph, key, path, max_words, paths=[]):
-    if len(path.split(" ")) == max_words+1:
-        paths.append(path)
-        return paths
-    path+=f" {key}"
-    for key2 in graph[key]:
-        paths.append(find_all_paths2(graph, key2, path, max_words))
-    return [find_all_paths2(graph, key2, path, max_words) for key2 in graph[key]]
-
-
 def mutate_sentences(sentence: str) -> List[str]:
     """
     Given a sentence (sequence of words), return a list of all "similar"
@@ -85,16 +74,24 @@ def mutate_sentences(sentence: str) -> List[str]:
                 (Reordered versions of this list are allowed.)
     """
     # BEGIN_YOUR_CODE (our solution is 17 lines of code, but don't worry if you deviate from this)
+    def find_all_paths2(graph, key, path, max_words, paths=[], next_key=1):
+        if len(path.split(" ")) == max_words + 1:
+            paths.append(path)
+            return path
+        path += f" {key}"
+        for key2 in graph[key]:
+            return find_all_paths2(graph, key2, path, max_words, paths)
     sentence, words = sentence.split(" "), {}
     for current_index, word in enumerate(sentence[:-1]):
         if word in words and sentence[current_index+1] not in words[word]:
             words[word].append(sentence[current_index+1])
         else:
             words[word] = [sentence[current_index+1]]
-    words[sentence[-1]], paths = [], [" ".join(sentence)]
-    [paths.append(find_all_paths2(words, key, "", len(sentence))) for key in words]
-    # [print(words, key1, key2) for key1 in words for key2 in words]
-    print(paths)
+    words[sentence[-1]], paths = [], []
+    for key in list(words.keys())[:-1]:
+        if path:=find_all_paths2(words, key, "", len(sentence)):
+            paths.append(path)
+    return [" ".join(sentence)]+paths
     # END_YOUR_CODE
 
 
@@ -119,8 +116,7 @@ def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
 ############################################################
 # Problem 4e
 
-def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector,
-) -> None:
+def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector) -> None:
     """
     Given two sparse vectors |v1| and |v2|, perform v1 += scale * v2.
     If the scale is zero, you are allowed to modify v1 to include any
@@ -145,10 +141,11 @@ def find_nonsingleton_words(text: str) -> Set[str]:
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    return set([word for word in text.split(" ") if text.split(" ").count(word)>1])
     # END_YOUR_CODE
 
 
 # print(find_alphabetically_first_word("raffaele foi feito para programar"))
 # print(euclidean_distance((1, 1), (10, 10)))
-mutate_sentences("the cat and the mouse")
+# print(mutate_sentences("the cat and the mouse"))
+# print(find_nonsingleton_words("the cat and the mouse cat"))
