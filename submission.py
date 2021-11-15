@@ -74,20 +74,21 @@ def mutate_sentences(sentence: str) -> List[str]:
                 (Reordered versions of this list are allowed.)
     """
     # BEGIN_YOUR_CODE (our solution is 17 lines of code, but don't worry if you deviate from this)
-    def find_all_paths2(graph, key, path, max_words, paths=[], next_key=1):
-        if len(path.split(" ")) == max_words + 1:
+    def find_all_paths2(graph, key, path, max_words, paths=[]):  # recursive search of a graph to find all sentences
+        if len(path.split(" ")) == max_words + 1:  # if sentence has same word number as original, it should stop
             paths.append(path)
-            return path
-        path += f" {key}"
-        for key2 in graph[key]:
+            return path.strip()
+        path += f"{key} "  # add next word to the sentence
+        for key2 in graph[key]:  # must go to all possible nodes.
             return find_all_paths2(graph, key2, path, max_words, paths)
-    sentence, words = sentence.split(" "), {}
-    for current_index, word in enumerate(sentence[:-1]):
+
+    sentence, words = sentence.split(" "), {}  # extracting all words from sentence and initializing words dictionary
+    for current_index, word in enumerate(sentence[:-1]):  # creates a dictionary where values are following nodes
         if word in words and sentence[current_index+1] not in words[word]:
             words[word].append(sentence[current_index+1])
         else:
             words[word] = [sentence[current_index+1]]
-    words[sentence[-1]], paths = [], []
+    words[sentence[-1]], paths = [] if sentence[-1] not in words.keys() else words[sentence[-1]], []
     for key in list(words.keys())[:-1]:
         if path:=find_all_paths2(words, key, "", len(sentence)):
             paths.append(path)
@@ -109,7 +110,7 @@ def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
     Note: A sparse vector has most of its entries as 0.
     """
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    return sum([float(v1_pos) * float(v2_pos) for v1_pos in v1 for v2_pos in v2])
     # END_YOUR_CODE
 
 
@@ -127,25 +128,30 @@ def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector) ->
     This function will be useful later for linear classifiers.
     """
     # BEGIN_YOUR_CODE (our solution is 2 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    pass
     # END_YOUR_CODE
 
 
 ############################################################
 # Problem 4f
 
-def find_nonsingleton_words(text: str) -> Set[str]:
+def find_nonsingleton_words(text0: str) -> Set[str]:
     """
     Split the string |text| by whitespace and return the set of words that
     occur more than once.
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    return set([word for word in text.split(" ") if text.split(" ").count(word)>1])
+    text, values = text0.split(" "), set()
+    for word in text:
+        if word not in values and text.count(word) > 1:
+            values.add(word)  # append(word)
+    return values
     # END_YOUR_CODE
 
 
 # print(find_alphabetically_first_word("raffaele foi feito para programar"))
 # print(euclidean_distance((1, 1), (10, 10)))
-# print(mutate_sentences("the cat and the mouse"))
+# print(mutate_sentences("mouse the cat and the mouse"))
+# print(mutate_sentences("I know what I want"))
 # print(find_nonsingleton_words("the cat and the mouse cat"))

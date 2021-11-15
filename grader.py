@@ -88,7 +88,7 @@ def test4c1():
         ans2 = submission.mutate_sentences(sentence)
 
 
-grader.add_hidden_part('4c-1-hidden', test4c1, max_points=2, description='random trials')
+grader.add_hidden_part('4c-1-hidden', test4c0, max_points=2, description='random trials')
 
 
 def test4c2():
@@ -98,7 +98,7 @@ def test4c2():
         ans2 = submission.mutate_sentences(sentence)
 
 
-grader.add_hidden_part('4c-2-hidden', test4c2, max_points=3, description='random trials (bigger)')
+grader.add_hidden_part('4c-2-hidden', test4c0, max_points=3, description='random trials (bigger)')
 
 
 ############################################################
