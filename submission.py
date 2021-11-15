@@ -112,7 +112,7 @@ def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
     Note: A sparse vector has most of its entries as 0.
     """
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    return sum([float(v1_pos) * float(v2_pos) for v1_pos in v1  for v2_pos in v2])
     # END_YOUR_CODE
 
 
@@ -145,10 +145,12 @@ def find_nonsingleton_words(text: str) -> Set[str]:
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    return set([word for word in text.split(" ") if text.split(" ").count(word) > 1])
     # END_YOUR_CODE
 
 
 # print(find_alphabetically_first_word("raffaele foi feito para programar"))
 # print(euclidean_distance((1, 1), (10, 10)))
-mutate_sentences("the cat and the mouse")
+#print# mutate_sentences("the cat and the mouse")
+print(sparse_vector_dot_product([1, 1.2], [1, 1.2]))
+
