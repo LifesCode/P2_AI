@@ -151,6 +151,6 @@ def find_nonsingleton_words(text: str) -> Set[str]:
 
 # print(find_alphabetically_first_word("raffaele foi feito para programar"))
 # print(euclidean_distance((1, 1), (10, 10)))
-#print# mutate_sentences("the cat and the mouse")
-print(sparse_vector_dot_product([1, 1.2], [1, 1.2]))
+print( mutate_sentences("the cat and the mouse"))
+# print(sparse_vector_dot_product([1, 1.2], [1, 1.2]))
 
