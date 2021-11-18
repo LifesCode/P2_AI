@@ -142,11 +142,7 @@ def find_nonsingleton_words(text0: str) -> Set[str]:
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    text, values = text0.split(" "), set()
-    for word in text:
-        if word not in values and text.count(word) > 1:
-            values.add(word)  # append(word)
-    return values
+    return set([word for word in text.split(" ") if text.split(" ").count(word) > 1])
     # END_YOUR_CODE
 
 
