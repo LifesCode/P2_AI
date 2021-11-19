@@ -53,17 +53,6 @@ def euclidean_distance(loc1: Position, loc2: Position) -> float:
 
 ############################################################
 # Problem 4c
-
-def find_all_paths2(graph, key, path, max_words, paths=[]):
-    if len(path.split(" ")) == max_words+1:
-        paths.append(path)
-        return paths
-    path+=f" {key}"
-    for key2 in graph[key]:
-        paths.append(find_all_paths2(graph, key2, path, max_words))
-    return [find_all_paths2(graph, key2, path, max_words) for key2 in graph[key]]
-
-
 def mutate_sentences(sentence: str) -> List[str]:
     """
     Given a sentence (sequence of words), return a list of all "similar"
@@ -85,16 +74,25 @@ def mutate_sentences(sentence: str) -> List[str]:
                 (Reordered versions of this list are allowed.)
     """
     # BEGIN_YOUR_CODE (our solution is 17 lines of code, but don't worry if you deviate from this)
-    sentence, words = sentence.split(" "), {}
-    for current_index, word in enumerate(sentence[:-1]):
+    def find_all_paths2(graph, key, path, max_words, paths=[]):  # recursive search of a graph to find all sentences
+        if len(path.split(" ")) == max_words + 1:  # if sentence has same word number as original, it should stop
+            paths.append(path)
+            return path.strip()
+        path += f"{key} "  # add next word to the sentence
+        for key2 in graph[key]:  # must go to all possible nodes.
+            return find_all_paths2(graph, key2, path, max_words, paths)
+
+    sentence, words = sentence.split(" "), {}  # extracting all words from sentence and initializing words dictionary
+    for current_index, word in enumerate(sentence[:-1]):  # creates a dictionary where values are following nodes
         if word in words and sentence[current_index+1] not in words[word]:
             words[word].append(sentence[current_index+1])
         else:
             words[word] = [sentence[current_index+1]]
-    words[sentence[-1]], paths = [], [" ".join(sentence)]
-    [paths.append(find_all_paths2(words, key, "", len(sentence))) for key in words]
-    # [print(words, key1, key2) for key1 in words for key2 in words]
-    print(paths)
+    words[sentence[-1]], paths = [] if sentence[-1] not in words.keys() else words[sentence[-1]], []
+    for key in list(words.keys())[:-1]:
+        if path:=find_all_paths2(words, key, "", len(sentence)):
+            paths.append(path)
+    return [" ".join(sentence)]+paths
     # END_YOUR_CODE
 
 
@@ -112,15 +110,14 @@ def sparse_vector_dot_product(v1: SparseVector, v2: SparseVector) -> float:
     Note: A sparse vector has most of its entries as 0.
     """
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    return sum([float(v1[v1_pos]) * float(v2[v2_pos]) for v1_pos in v1.keys() for v2_pos in v2.keys() if v1_pos == v2_pos])
     # END_YOUR_CODE
 
 
 ############################################################
 # Problem 4e
 
-def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector,
-) -> None:
+def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector) -> None:
     """
     Given two sparse vectors |v1| and |v2|, perform v1 += scale * v2.
     If the scale is zero, you are allowed to modify v1 to include any
@@ -131,24 +128,39 @@ def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector,
     This function will be useful later for linear classifiers.
     """
     # BEGIN_YOUR_CODE (our solution is 2 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    for v1_pos in v1.keys():
+        for v2_pos in v2.keys():
+            if v1_pos == v2_pos:
+                v2[v1_pos] = v1[v1_pos] + scale * v2[v2_pos]
+            else:
+                v2[v2_pos] = v2[v2_pos] * scale 
     # END_YOUR_CODE
 
 
 ############################################################
 # Problem 4f
 
-def find_nonsingleton_words(text: str) -> Set[str]:
+def find_nonsingleton_words(text0: str) -> Set[str]:
     """
     Split the string |text| by whitespace and return the set of words that
     occur more than once.
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    # text, values = text0.split(" "), set()
+    # for word in text:
+    #     if word not in values and text.count(word) > 1:
+    #         values.add(word)  # append(word)
+    # return values
+    return set([word for word in text0.split(" ") if text0.split(" ").count(word) > 1])
     # END_YOUR_CODE
 
 
 # print(find_alphabetically_first_word("raffaele foi feito para programar"))
 # print(euclidean_distance((1, 1), (10, 10)))
-mutate_sentences("the cat and the mouse")
+# print(mutate_sentences("mouse the cat and the mouse"))
+# print(mutate_sentences("I know what I want"))
+# print(find_nonsingleton_words("the cat and the mouse cat"))
+# print(sparse_vector_dot_product(collections.defaultdict(float, {'a': 5}), collections.defaultdict(float, {'b': 2, 'a': 3})))
+# v = collections.defaultdict(float, {'a': 5})
+# print(increment_sparse_vector(v, 2, collections.defaultdict(float, {'b': 2, 'a': 3})))
