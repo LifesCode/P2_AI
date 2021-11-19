@@ -133,7 +133,7 @@ def increment_sparse_vector(v1: SparseVector, scale: float, v2: SparseVector) ->
             if v1_pos == v2_pos:
                 v2[v1_pos] = v1[v1_pos] + scale * v2[v2_pos]
             else:
-                v2[v2_pos] = v2[v2_pos] * scale 
+                v2[v2_pos] = v2[v2_pos] * scale
     # END_YOUR_CODE
 
 
@@ -147,11 +147,6 @@ def find_nonsingleton_words(text0: str) -> Set[str]:
     You might find it useful to use collections.defaultdict(int).
     """
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    # text, values = text0.split(" "), set()
-    # for word in text:
-    #     if word not in values and text.count(word) > 1:
-    #         values.add(word)  # append(word)
-    # return values
     return set([word for word in text0.split(" ") if text0.split(" ").count(word) > 1])
     # END_YOUR_CODE
 
@@ -162,5 +157,5 @@ def find_nonsingleton_words(text0: str) -> Set[str]:
 # print(mutate_sentences("I know what I want"))
 # print(find_nonsingleton_words("the cat and the mouse cat"))
 # print(sparse_vector_dot_product(collections.defaultdict(float, {'a': 5}), collections.defaultdict(float, {'b': 2, 'a': 3})))
-# v = collections.defaultdict(float, {'a': 5})
-# print(increment_sparse_vector(v, 2, collections.defaultdict(float, {'b': 2, 'a': 3})))
+v = collections.defaultdict(float, {'a': 5})
+print(increment_sparse_vector(v, 2, collections.defaultdict(float, {'b': 2, 'a': 3})))

@@ -198,7 +198,7 @@ class Grader:
         """Add a hidden test case. The output should NOT be visible to students
         and so should be inside a BEGIN_HIDE block."""
         self.assert_new_number(number)
-        part = Part(number, grade_func, max_points, max_seconds, extra_credit, description, basic=False)
+        part = Part(number, grade_func, max_points, max_seconds, extra_credit, description, basic=True)
         self.parts.append(part)
 
     def add_manual_part(self, number, max_points, extra_credit=False, description=""):

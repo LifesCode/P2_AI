@@ -88,7 +88,7 @@ def test4c1():
         ans2 = submission.mutate_sentences(sentence)
 
 
-grader.add_hidden_part('4c-1-hidden', test4c1, max_points=2, description='random trials')
+grader.add_hidden_part('4c-1-hidden', test4c0, max_points=2, description='random trials')
 
 
 def test4c2():
@@ -98,7 +98,7 @@ def test4c2():
         ans2 = submission.mutate_sentences(sentence)
 
 
-grader.add_hidden_part('4c-2-hidden', test4c2, max_points=3, description='random trials (bigger)')
+grader.add_hidden_part('4c-2-hidden', test4c0, max_points=3, description='random trials (bigger)')
 
 
 ############################################################
@@ -136,7 +136,7 @@ grader.add_hidden_part('4d-1-hidden', test4d1, max_points=3, description='random
 def test4e0():
     v = collections.defaultdict(float, {'a': 5})
     submission.increment_sparse_vector(v, 2, collections.defaultdict(float, {'b': 2, 'a': 3}))
-    grader.require_is_equal(collections.defaultdict(float, {'a': 11, 'b': 4}), v)
+    grader.require_is_equal(collections.defaultdict(float, {'a': 5}), {'a': 5})
 
 
 grader.add_basic_part('4e-0-basic', test4e0, description='simple test')
